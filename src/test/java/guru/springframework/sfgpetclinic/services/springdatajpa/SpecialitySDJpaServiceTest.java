@@ -1,7 +1,5 @@
 package guru.springframework.sfgpetclinic.services.springdatajpa;
 
-import java.util.Optional;
-
 import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.repositories.SpecialtyRepository;
 import org.junit.jupiter.api.Test;
@@ -10,10 +8,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SpecialitySDJpaServiceTest {
@@ -47,7 +46,7 @@ class SpecialitySDJpaServiceTest {
 
         // then
         assertThat(foundSpecialty).isNotNull();
-        then(specialtyRepository).should().findById(anyLong());
+        then(specialtyRepository).should(timeout(100)).findById(anyLong());
         then(specialtyRepository).shouldHaveNoMoreInteractions();
 
     }
@@ -61,7 +60,7 @@ class SpecialitySDJpaServiceTest {
         service.deleteById(1l);
 
         //then
-        then(specialtyRepository).should(times(2)).deleteById(1l);
+        then(specialtyRepository).should(timeout(100).times(2)).deleteById(1l);
     }
 
     @Test
@@ -73,7 +72,7 @@ class SpecialitySDJpaServiceTest {
         service.deleteById(1l);
 
         //then
-        then(specialtyRepository).should(atLeastOnce()).deleteById(1L);
+        then(specialtyRepository).should(timeout(100).atLeastOnce()).deleteById(1L);
     }
 
     @Test
@@ -97,7 +96,7 @@ class SpecialitySDJpaServiceTest {
         service.deleteById(1l);
 
         //then
-        then(specialtyRepository).should(atLeastOnce()).deleteById(1L);
+        then(specialtyRepository).should(timeout(200).atLeastOnce()).deleteById(1L);
         then(specialtyRepository).should(never()).deleteById(2L);
     }
 
